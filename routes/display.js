@@ -3,8 +3,8 @@ var express = require('express');
 module.exports = function (SourceTextModel) {
   var router = express.Router();
 
-  router.get('/', function (req, res) {
-    var id = req.query.id;
+  router.get('/:id', function (req, res) {
+    var id = req.params.id;
     SourceTextModel.findById(id, function (err, item) {
       if (err) {
         return res.status(404).send('Not Found');

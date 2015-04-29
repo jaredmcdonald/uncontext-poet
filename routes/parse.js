@@ -16,7 +16,7 @@ module.exports = function (SourceTextModel) {
         return res.status(500).send('Internal Server Error');
       }
 
-      res.redirect('/display?id=' + newItem._id);
+      res.redirect('/display/' + newItem._id);
     });
 
 
