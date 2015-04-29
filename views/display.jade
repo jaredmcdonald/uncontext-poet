@@ -1,0 +1,6 @@
+extends layout
+
+block content
+  p#container
+  script var PARSED_DATA = !{JSON.stringify(item.parsed)}
+  script(src='/js/app.js')

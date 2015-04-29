@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  form(method="POST" action="/parse")
+    textarea#source(placeholder="Enter some text and press SUBMIT..." name="source")
+    input(type="submit" value="SUBMIT")
+    
