@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  ul
+    each text in sourceTexts
+      li
+        a(href='/display/' + text._id)= text.text.substring(0, 100) + '...'
