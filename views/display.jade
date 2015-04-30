@@ -3,4 +3,5 @@ extends layout
 block content
   p#container
   script var PARSED_DATA = !{JSON.stringify(item.parsed)}
+  script(src='/socket.io/socket.io.js')
   script(src='/js/app.js')

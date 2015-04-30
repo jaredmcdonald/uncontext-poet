@@ -9,10 +9,10 @@
     el.innerText += ' ' + w;
   }
 
-  var ws = new WebSocket('ws://literature.uncontext.com:80');
+  var ws = io();
 
-  ws.onmessage = function (event) {
-    var data = JSON.parse(event.data);
+  ws.on('message', function (message) {
+    var data = JSON.parse(message);
     var wordRatios = [1 / data.a, 1 / data.b, 1 / data.c, 1 / data.e.f];
 
     wordRatios.map(getWord).forEach(function (w) {
@@ -21,9 +21,6 @@
       }, (1 / data.e.g) * 1000);
     });
 
-  };
-
-  window._STOP = ws.close.bind(ws)
-
+  });
 
 })(window.PARSED_DATA);
