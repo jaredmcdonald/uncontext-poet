@@ -13,12 +13,15 @@
 
   ws.on('message', function (message) {
     var data = JSON.parse(message);
-    var wordRatios = [1 / data.a, 1 / data.b, 1 / data.c, 1 / data.e.f];
+    var nums = [data.a, data.b, data.e.f, data.e.g];
+    var messageMax = Math.max.apply(null, nums);
 
-    wordRatios.map(getWord).forEach(function (w) {
+    nums.map(function (r) {
+      return getWord(r / messageMax);
+    }).forEach(function (w) {
       setTimeout(function () {
         appendText(w ? ' ' + w : '\n');
-      }, (1 / data.e.g) * 1000);
+      }, (1 / data.c) * 1000);
     });
 
   });
