@@ -1,5 +1,6 @@
 (function (SOURCE_TEXT_SPLIT) {
   var el = document.getElementById('container');
+  var userScrolled = false;
 
   function getWord (dec) {
     return SOURCE_TEXT_SPLIT[Math.floor(SOURCE_TEXT_SPLIT.length * dec)];
@@ -9,7 +10,18 @@
     el.innerText += ' ' + w;
   }
 
+  function onScroll () {
+    userScrolled =
+      document.body.scrollHeight - window.innerHeight !== window.scrollY;
+  }
+
+  function updateScroll () {
+    window.scrollTo(0, document.body.scrollHeight);
+  }
+
   var ws = io();
+
+  window.addEventListener('scroll', onScroll);
 
   ws.on('message', function (message) {
     var data = JSON.parse(message);
@@ -21,6 +33,9 @@
     }).forEach(function (w) {
       setTimeout(function () {
         appendText(w ? ' ' + w : '\n');
+        if (!userScrolled) {
+          updateScroll();
+        }
       }, (1 / data.c) * 1000);
     });
 
