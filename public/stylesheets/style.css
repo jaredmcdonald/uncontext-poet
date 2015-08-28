@@ -1,4 +1,4 @@
-html, body, form {
+html {
   box-sizing: border-box;
   width : 100%;
   height : 100%;
@@ -6,9 +6,27 @@ html, body, form {
   margin: 0;
 }
 
-#source {
+body {
   width: 90%;
-  height: 70%;
-  padding: 5%;
-  border: 0;
+  height: 90%;
+  margin: 1em auto;
+}
+
+form, #source {
+  width: 100%;
+  height: 100%;
+}
+
+html,
+#source {
+  font-family: monospace;
+}
+
+.about {
+  margin: 0
+}
+
+.nav-link {
+  display: inline-block;
+  margin-left: 2em;
 }
