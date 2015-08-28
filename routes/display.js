@@ -1,27 +1,25 @@
-var express = require('express');
+import SourceTextModel from '../models/source';
+import {Router} from 'express';
 
-module.exports = function (SourceTextModel) {
-  var router = express.Router();
+const router = Router();
 
-  router.get('/:id', function (req, res) {
-    var id = req.params.id;
-    SourceTextModel.findById(id, function (err, item) {
-      if (err) {
-        return res.status(404).send('Not Found');
-      }
+router.get('/:id', (req, res) => {
+  const id = req.params.id;
+  SourceTextModel.findById(id, (err, item) => {
+    if (err) {
+      return res.status(404).send('Not Found');
+    }
 
-      res.render('display', {
-        title : buildPageTitle(item.parsed),
-        item : item
-      });
+    res.render('display', {
+      title: buildPageTitle(item.parsed),
+      item
     });
-
   });
 
-  return router;
-}
-
+});
 
 function buildPageTitle (parsed) {
-  return parsed.slice(0, 3).join(' ') + '...';
+  return `${parsed.slice(0, 3).join(' ')}...`;
 }
+
+export default router;

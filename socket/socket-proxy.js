@@ -1,14 +1,12 @@
-'use strict';
+import WebSocket from 'ws';
+import socketio from 'socket.io';
 
-var WebSocket = require('ws');
-var ws = new WebSocket('ws://literature.uncontext.com'); // todo: configure
-var socketio = require('socket.io');
+const ws = new WebSocket('ws://literature.uncontext.com'); // todo: configure
 
-module.exports = function (server) {
-  var io = socketio(server);
+export default function (server) {
+  const io = socketio(server);
 
-  io.on('connection', function (socket) {
+  io.on('connection', (socket) => {
     ws.on('message', socket.emit.bind(socket, 'message'));
   });
-
-};
+}

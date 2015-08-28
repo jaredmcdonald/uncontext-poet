@@ -1,23 +1,19 @@
-'use strict';
+import express from 'express';
+import mongoose from 'mongoose';
+import path from 'path';
+import favicon from 'serve-favicon';
+import logger from 'morgan';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import index from './routes/index';
+import parse from './routes/parse';
+import display from './routes/display';
+import list from './routes/list';
 
-var express = require('express');
-var mongoose = require('mongoose');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const app = express();
 
-var SourceTextModel = require('./models/source')(mongoose);
-
-var index = require('./routes/index');
-var parse = require('./routes/parse')(SourceTextModel);
-var display = require('./routes/display')(SourceTextModel);
-var list = require('./routes/list')(SourceTextModel);
-
-var app = express();
-
-mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI || 'localhost/uncontext-poet');
+mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI ||
+  'localhost/uncontext-poet');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -37,8 +33,8 @@ app.use('/display', display);
 app.use('/list', list);
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
-    var err = new Error('Not Found');
+app.use((req, res, next) => {
+    let err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
@@ -48,7 +44,7 @@ app.use(function (req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-    app.use(function (err, req, res, next) {
+    app.use((err, req, res, next) => {
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
@@ -59,7 +55,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
@@ -67,5 +63,4 @@ app.use(function (err, req, res, next) {
     });
 });
 
-
-module.exports = app;
+export default app;

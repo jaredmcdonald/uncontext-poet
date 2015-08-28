@@ -1,22 +1,19 @@
-'use strict';
+import SourceTextModel from '../models/source';
+import {Router} from 'express';
 
-var express = require('express');
+const router = Router();
 
-module.exports = function (SourceTextModel) {
-  var router = express.Router();
+router.get('/', (req, res) => {
+  SourceTextModel.find().exec((err, sourceTexts) => {
+    if (err) {
+      return res.status(500).send('Internal Server Error');
+    }
 
-  router.get('/', function (req, res) {
-    SourceTextModel.find().exec(function (err, sourceTexts) {
-      if (err) {
-        return res.status(500).send('Internal Server Error');
-      }
-
-      res.render('list', {
-        title: 'All source texts',
-        sourceTexts: sourceTexts
-      });
+    res.render('list', {
+      title: 'All source texts',
+      sourceTexts
     });
   });
+});
 
-  return router;
-}
+export default router;

@@ -1,9 +1,11 @@
-module.exports = function (mongoose) {
-  var schema = mongoose.Schema({
-    text: { type: String, required: true },
-    parsed: { type: [String], required : true },
-    timestamp: { type: Date, default: Date.now }
-  });
+import mongoose from 'mongoose';
 
-  return mongoose.model('Source', schema);
-};
+const schema = mongoose.Schema({
+  text: { type: String, required: true },
+  parsed: { type: [String], required : true },
+  timestamp: { type: Date, default: Date.now }
+});
+
+const model = mongoose.model('Source', schema);
+
+export default model;
