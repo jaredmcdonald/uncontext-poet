@@ -28,6 +28,10 @@ form, #source {
   width: 26em;
 }
 
+#editor.invalid {
+  outline: 1px solid red;
+}
+
 html,
 #source,
 #editor {

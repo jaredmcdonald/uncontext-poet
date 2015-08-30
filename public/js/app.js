@@ -1,9 +1,8 @@
 (function (SOURCE_TEXT_SPLIT) {
-  const ALG_TOKEN_REGEX = /^[abcefms+-/*\(\)1234567890]$/
-  const SPACE_REGEX = /\s/;
+  const ALG_TOKEN_REGEX = /^(?:[abcfgms\+\-\/\*\(\)]{1}|[\d\.]+)$/;
 
   const container = document.getElementById('container');
-  const controls = document.getElementById('editor');
+  const editor = document.getElementById('editor');
   const sample = document.getElementById('sample');
 
   const ws = io();
@@ -29,24 +28,24 @@
   }
 
   function validateAlgorithm (algString) {
-    // validate individual tokens
-    // (we get away with this because each token is one character)
-    const tokensValid = algString.split('')
-                                 .filter((c) => !SPACE_REGEX.test(c))
-                                 .every((item) => ALG_TOKEN_REGEX.test(item));
+    // validate individual tokens. tokens must be space-separated
+    if (!algString.split(' ').every((t) => ALG_TOKEN_REGEX.test(t))) {
+      return false;
+    }
 
-    if (!tokensValid) return false;
-
-     // test w/ real values and make sure it doesn't throw
+     // test w/ realistic values and make sure it doesn't throw
      const [a, b, c, f, g] = [5, 1, 0, 175, 199];
      const m = Math.max(a, b, c, f, g);
      const s = a + b + c + f + g;
-     let valueTestPasses = true;
+
+     let valueTestPasses;
+
      try {
-       eval(algString);
+       valueTestPasses = Number.isFinite(eval(algString));
      } catch (e) {
        valueTestPasses = false;
      };
+
      return valueTestPasses;
   }
 
@@ -68,22 +67,39 @@
     const alg = getAlgorithm();
     if (alg) {
       algorithm = alg;
-    } else {
-      console.error('invalid algorithm');
     }
+    toggleInvalidState(!alg);
+  }
+
+  function toggleInvalidState (isInvalid) {
+    const c = 'invalid';
+    if (isInvalid) {
+      editor.classList.add(c);
+    } else {
+      editor.classList.remove(c);
+    }
+  }
+
+  function updateInfoPanel (a, b, c, f, g, m, s, result, normalized) {
+    sample.innerText =
+      `${JSON.stringify({a, b, c, f, g})}\n` +
+      `m: ${m}, s: ${s}\n` +
+      `result: ${result}\n`+
+      `normalized: ${normalized}\n` +
+      `current algorithm: ${algorithm}`;
   }
 
   function onMessage (message) {
     const {a, b, c, e: {f, g}} = JSON.parse(message);
     const m = Math.max(a, b, c, f, g); // max
     const s = a + b + c + f + g; // sum
-    sample.innerText =
-      `${JSON.stringify({a, b, c, f, g})}\nm: ${m}, s: ${s}`;
 
     // eval time :/
     // should be reasonably safe since `algorithm` is scrubbed pre-save
     const result = eval(algorithm);
     const normalized = normalizeResult(result);
+    updateInfoPanel(a, b, c, f, g, m, s, result, normalized);
+
     const word = getWord(normalized);
     appendText(` ${word || '\n'}`);
     // arbitrary line break logic
@@ -96,7 +112,7 @@
     }
   }
 
-  controls.addEventListener('change', onAlgChange);
+  editor.addEventListener('keyup', onAlgChange);
   window.addEventListener('scroll', onScroll);
   ws.on('message', onMessage);
 
