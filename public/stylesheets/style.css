@@ -38,6 +38,10 @@ html,
   font-family: monospace;
 }
 
+#container {
+  overflow-wrap: break-word;
+}
+
 .about {
   margin: 0
 }
