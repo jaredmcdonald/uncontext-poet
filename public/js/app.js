@@ -1,9 +1,12 @@
-(function (SOURCE_TEXT_SPLIT) {
-  const ALG_TOKEN_REGEX = /^(?:[abcfgms\+\-\/\*\(\)]{1}|[\d\.]+)$/;
-
+(function () {
   const container = document.getElementById('container');
   const editor = document.getElementById('editor');
   const sample = document.getElementById('sample');
+
+  const SOURCE_TEXT_SPLIT = JSON.parse(container.dataset.parsed);
+
+  const ALG_TOKEN_REGEX = /^(?:[abcfgms\+\-\/\*\(\)]{1}|[\d\.]+)$/;
+  const linebreak = '&NewLine;';
 
   const ws = io();
 
@@ -14,8 +17,15 @@
     return SOURCE_TEXT_SPLIT[Math.floor(SOURCE_TEXT_SPLIT.length * dec)];
   }
 
+  function sanitize (w) {
+    return w.replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&apos;');
+  }
+
   function appendText (w) {
-    container.innerText += ' ' + w;
+    container.innerHTML += sanitize(w);
   }
 
   function onScroll () {
@@ -101,10 +111,10 @@
     updateInfoPanel(a, b, c, f, g, m, s, result, normalized);
 
     const word = getWord(normalized);
-    appendText(` ${word || '\n'}`);
+    appendText(` ${word || linebreak}`);
     // arbitrary line break logic
     if (Math.abs(0.5 - normalized) <= 0.01) {
-      appendText('\n');
+      appendText(linebreak);
     }
 
     if (!userScrolled) {
@@ -116,4 +126,4 @@
   window.addEventListener('scroll', onScroll);
   ws.on('message', onMessage);
 
-})(window.PARSED_DATA);
+})();
