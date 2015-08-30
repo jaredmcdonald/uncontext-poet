@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "prestart": "babel public/js/app.js > public/js/dist/app.js",
     "start": "node ./bin/www"
   },
   "dependencies": {

@@ -17,8 +17,20 @@ form, #source {
   height: 100%;
 }
 
+#controls {
+  position: fixed;
+  right: 1em;
+  top: 1em;
+  min-width: 24em;
+}
+
+#editor {
+  width: 26em;
+}
+
 html,
-#source {
+#source,
+#editor {
   font-family: monospace;
 }
 
