@@ -1,4 +1,4 @@
-(function () {
+document.addEventListener('DOMContentLoaded', function () {
   const container = document.getElementById('container');
   const editor = document.getElementById('editor');
   const sample = document.getElementById('sample');
@@ -37,6 +37,11 @@
     container.scrollTop = container.scrollHeight;
   }
 
+  function isFinitePolyfill (value) {
+    if (Number.isFinite) return Number.isFinite(value);
+    return typeof value === 'number' && isFinite(value);
+  }
+
   function validateAlgorithm (algString) {
     // validate individual tokens. tokens must be space-separated
     if (!algString.split(' ').every((t) => ALG_TOKEN_REGEX.test(t))) {
@@ -49,9 +54,8 @@
      const s = a + b + c + f + g;
 
      let valueTestPasses;
-
      try {
-       valueTestPasses = Number.isFinite(eval(algString));
+       valueTestPasses = isFinitePolyfill(eval(algString));
      } catch (e) {
        valueTestPasses = false;
      };
@@ -126,4 +130,4 @@
   container.addEventListener('scroll', onScroll);
   ws.on('message', onMessage);
 
-})();
+});
