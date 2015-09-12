@@ -10,6 +10,8 @@ body {
   width: 90%;
   height: 90%;
   margin: 1em auto;
+  display: flex;
+  flex-direction: row;
 }
 
 form, #source {
@@ -18,14 +20,11 @@ form, #source {
 }
 
 #controls {
-  position: fixed;
-  right: 1em;
-  top: 1em;
-  min-width: 24em;
+  flex: 1.5 0 0;
 }
 
 #editor {
-  width: 26em;
+  width: 100%;
 }
 
 #editor.invalid {
@@ -39,7 +38,10 @@ html,
 }
 
 #container {
+  flex: 4 0 0;
+  padding-right: 3em;
   overflow-wrap: break-word;
+  overflow-y: auto;
 }
 
 .about {

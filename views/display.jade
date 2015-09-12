@@ -1,10 +1,10 @@
 extends layout
 
 block content
+  pre#container(data-parsed=JSON.stringify(item.parsed))
   aside#controls
     h4 algorithm editor
     textarea#editor m / s
     pre#sample
-  pre#container(data-parsed=JSON.stringify(item.parsed))
   script(src='/socket.io/socket.io.js')
   script(src='/js/dist/app.js')

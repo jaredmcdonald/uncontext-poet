@@ -30,11 +30,11 @@
 
   function onScroll () {
     userScrolled =
-      document.body.scrollHeight - window.innerHeight !== window.scrollY;
+      container.scrollHeight - container.clientHeight !== container.scrollTop;
   }
 
   function updateScroll () {
-    window.scrollTo(0, document.body.scrollHeight);
+    container.scrollTop = container.scrollHeight;
   }
 
   function validateAlgorithm (algString) {
@@ -123,7 +123,7 @@
   }
 
   editor.addEventListener('keyup', onAlgChange);
-  window.addEventListener('scroll', onScroll);
+  container.addEventListener('scroll', onScroll);
   ws.on('message', onMessage);
 
 })();

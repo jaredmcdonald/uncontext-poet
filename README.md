@@ -9,5 +9,6 @@ https://uncontext-poet.herokuapp.com/
 - [x] scrub malicious HTML
 - [ ] ability to pause/resume on `/display/*` view
 - [ ] ability to save (and view) generated texts (should have parity with "source texts")
-- [ ] styling: flexbox + make more responsive
+- [x] styling: flexbox
+- [ ] styling: account for smaller viewports
 - [ ] allow arbitrary websocket data sources
