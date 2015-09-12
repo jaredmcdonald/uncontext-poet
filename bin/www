@@ -4,14 +4,16 @@
 
 require('babel/register');
 
-var debug = require('debug')('uncontext-client');
-var app = require('../app');
-var socket = require('../socket/socket-proxy');
+// node 4.0 doesn't yet support harmony modules
+const debug = require('debug')('uncontext-poet');
+const app = require('../app');
+const socket = require('../socket/socket-proxy');
 
 app.set('port', process.env.PORT || 3000);
 
-var server = app.listen(app.get('port'), function () {
-  debug('Express server listening on port ' + server.address().port);
+debug(`app starting with node ${process.version}`);
+const server = app.listen(app.get('port'), () => {
+  debug(`Express server listening on port ${server.address().port}`);
 });
 
 socket(server);
