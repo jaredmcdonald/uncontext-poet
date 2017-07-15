@@ -1,9 +1,10 @@
 # uncontext-poet
 
-~https://uncontext-poet.herokuapp.com/~ (UPDATE 6/14/17: looks like uncontext is defunct 😿, bear with me while I find another data source)
+a little webapp that takes a source text and random data fed via websocket (formerly from [uncontext](https://github.com/ThisIsJohnBrown/uncontext), which now appears to be defunct 😿) and composes a new text, based on a user-defined "algorithm"
 
 ## TODO
 
+- [ ] get a new data source (uncontext is no more)
 - [ ] make line break logic configurable
 - [x] error handling / display current algorithm and its result
 - [x] scrub malicious HTML
